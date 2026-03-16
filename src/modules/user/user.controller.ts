@@ -2,7 +2,9 @@ import { Controller } from '@nestjs/common'
 import { GrpcMethod } from '@nestjs/microservices'
 import type {
 	CreateUserRequest,
-	CreateUserResponse
+	CreateUserResponse,
+	GetMeRequest,
+	GetMeResponse
 } from '@vendee-cinema/contracts/gen/user'
 
 import { UserService } from './user.service'
@@ -10,6 +12,11 @@ import { UserService } from './user.service'
 @Controller()
 export class UserController {
 	public constructor(private readonly userService: UserService) {}
+
+	@GrpcMethod('UserService', 'GetMe')
+	public async getMe(data: GetMeRequest): Promise<GetMeResponse> {
+		return await this.userService.getMe(data)
+	}
 
 	@GrpcMethod('UserService', 'CreateUser')
 	public async create(data: CreateUserRequest): Promise<CreateUserResponse> {

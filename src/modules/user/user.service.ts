@@ -1,13 +1,45 @@
 import { Injectable } from '@nestjs/common'
-import type { CreateUserRequest } from '@vendee-cinema/contracts/gen/user'
+import { RpcException } from '@nestjs/microservices'
+import { RpcStatus } from '@vendee-cinema/common'
+import type {
+	CreateUserRequest,
+	GetMeRequest
+} from '@vendee-cinema/contracts/gen/user'
+import { lastValueFrom } from 'rxjs'
+
+import { AccountClientGrpc } from '@/infrastructure/grpc/clients'
 
 import { UserRepository } from './user.repository'
 
 @Injectable()
 export class UserService {
-	public constructor(private readonly userRepository: UserRepository) {}
+	public constructor(
+		private readonly userRepository: UserRepository,
+		private readonly accountClient: AccountClientGrpc
+	) {}
+
+	public async getMe(data: GetMeRequest) {
+		const { id } = data
+		const profile = await this.userRepository.findById(id)
+		if (!profile)
+			throw new RpcException({
+				code: RpcStatus.NOT_FOUND,
+				details: 'User not found'
+			})
+		const account = await lastValueFrom(this.accountClient.getAccount({ id }))
+		return {
+			user: {
+				id: profile.id,
+				name: profile.name ?? undefined,
+				avatar: profile.avatar ?? undefined,
+				phone: account.phone,
+				email: account.email
+			}
+		}
+	}
 
 	public async create(data: CreateUserRequest) {
-		return await this.userRepository.create({ id: data.id })
+		const { id } = data
+		return await this.userRepository.create({ id })
 	}
 }
