@@ -1,6 +1,8 @@
 import { ConfigService } from '@nestjs/config'
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 
+import { User } from '@/modules/user/entities'
+
 export const getTypeOrmConfig = (
 	configService: ConfigService
 ): TypeOrmModuleOptions => ({
@@ -10,6 +12,7 @@ export const getTypeOrmConfig = (
 	username: configService.getOrThrow<string>('DATABASE_USER'),
 	password: configService.getOrThrow<string>('DATABASE_PASSWORD'),
 	database: configService.getOrThrow<string>('DATABASE_NAME'),
+	entities: [User],
 	synchronize: configService.getOrThrow<string>('DATABASE_SYNC') === 'true',
 	logging: configService.getOrThrow<boolean>('DATABASE_LOGGING')
 })
