@@ -3,7 +3,8 @@ import { RpcException } from '@nestjs/microservices'
 import { RpcStatus } from '@vendee-cinema/common'
 import type {
 	CreateUserRequest,
-	GetMeRequest
+	GetMeRequest,
+	PatchUserRequest
 } from '@vendee-cinema/contracts/gen/user'
 import { lastValueFrom } from 'rxjs'
 
@@ -41,5 +42,19 @@ export class UserService {
 	public async create(data: CreateUserRequest) {
 		const { id } = data
 		return await this.userRepository.create({ id })
+	}
+
+	public async patch(data: PatchUserRequest) {
+		const { userId, name } = data
+		const user = await this.userRepository.findById(userId)
+		if (!user)
+			throw new RpcException({
+				code: RpcStatus.NOT_FOUND,
+				details: 'User not found'
+			})
+		await this.userRepository.update(userId, {
+			...(name !== undefined && { name })
+		})
+		return { ok: true }
 	}
 }

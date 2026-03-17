@@ -4,7 +4,9 @@ import type {
 	CreateUserRequest,
 	CreateUserResponse,
 	GetMeRequest,
-	GetMeResponse
+	GetMeResponse,
+	PatchUserRequest,
+	PatchUserResponse
 } from '@vendee-cinema/contracts/gen/user'
 
 import { UserService } from './user.service'
@@ -21,6 +23,12 @@ export class UserController {
 	@GrpcMethod('UserService', 'CreateUser')
 	public async create(data: CreateUserRequest): Promise<CreateUserResponse> {
 		await this.userService.create(data)
+		return { ok: true }
+	}
+
+	@GrpcMethod('UserService', 'PatchUser')
+	public async patch(data: PatchUserRequest): Promise<PatchUserResponse> {
+		await this.userService.patch(data)
 		return { ok: true }
 	}
 }
