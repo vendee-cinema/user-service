@@ -5,7 +5,7 @@ import type {
 	CreateUserRequest,
 	GetMeRequest,
 	PatchUserRequest
-} from '@vendee-cinema/contracts/gen/user'
+} from '@vendee-cinema/contracts/gen/ts/user'
 import { lastValueFrom } from 'rxjs'
 
 import { AccountClientGrpc } from '@/infrastructure/grpc/clients'

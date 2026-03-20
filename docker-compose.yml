@@ -3,6 +3,7 @@ version: '3.9'
 services:
   user-service:
     container_name: user-service
+    image: vendee-cinema/user-service:dev
     build:
       context: .
       dockerfile: .dockerfile

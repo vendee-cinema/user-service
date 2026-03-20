@@ -3,7 +3,7 @@ import type { ClientGrpc } from '@nestjs/microservices'
 import type {
 	AccountServiceClient,
 	GetAccountRequest
-} from '@vendee-cinema/contracts/gen/account'
+} from '@vendee-cinema/contracts/gen/ts/account'
 
 @Injectable()
 export class AccountClientGrpc implements OnModuleInit {
