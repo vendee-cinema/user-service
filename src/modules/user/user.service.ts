@@ -45,7 +45,7 @@ export class UserService {
 	}
 
 	public async patch(data: PatchUserRequest) {
-		const { userId, name } = data
+		const { userId, name, avatar } = data
 		const user = await this.userRepository.findById(userId)
 		if (!user)
 			throw new RpcException({
@@ -53,7 +53,8 @@ export class UserService {
 				details: 'User not found'
 			})
 		await this.userRepository.update(userId, {
-			...(name !== undefined && { name })
+			...(name !== undefined && { name }),
+			...(avatar !== undefined && { avatar })
 		})
 		return { ok: true }
 	}
