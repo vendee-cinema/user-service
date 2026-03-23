@@ -7,7 +7,7 @@ import type {
 	GetMeResponse,
 	PatchUserRequest,
 	PatchUserResponse
-} from '@vendee-cinema/contracts/gen/ts/user'
+} from '@vendee-cinema/contracts/user'
 
 import { UserService } from './user.service'
 
