@@ -29,7 +29,7 @@
 		"@nestjs/microservices": "^11.1.17",
 		"@nestjs/platform-express": "^11.0.1",
 		"@nestjs/typeorm": "^11.0.0",
-		"@vendee-cinema/common": "^1.1.2",
+		"@vendee-cinema/common": "^1.2.5",
 		"@vendee-cinema/contracts": "^1.2.15",
 		"nanoid": "^5.1.7",
 		"pg": "^8.20.0",
